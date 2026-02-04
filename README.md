@@ -31,7 +31,7 @@ To view the live portfolio locally:
 
 ### 🔗 Connect
 *   **Discord:** [Join FA SERVER](https://discord.gg/XztDfrvrrD)
-*   **GitHub:** [SoloDRIVER]()
+*   **GitHub:** [SoloDRIVER](https://github.com/jeffyNoJumper/SoloDriver)
 
 ---
 © 2026 SRC DEV • Performance > Interfaces
