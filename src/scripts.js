@@ -60,22 +60,28 @@ document.addEventListener("DOMContentLoaded", function() {
 	img.src = "https://cdn-images-1.medium.com/max/80/1*QNimSWsBQxta_xt3XksQaw@2x.png";
 	img.onload = initParticles;
 
-	var MAX_LOGOS = 120;
 	var logos = [];
 	var clicked = false;
+	var maxLogos = 60;
+	var baseFramerate = 45;
+	var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 	function initParticles() {
 		handleResize();
+		stage.enableMouseOver(0);
 		createjs.Ticker.on("tick", tick);
-	   createjs.Ticker.framerate = 60;
-	   createjs.Ticker.timingMode = createjs.Ticker.RAF;
+		createjs.Ticker.framerate = baseFramerate;
+		createjs.Ticker.timingMode = createjs.Ticker.RAF;
+		document.addEventListener("visibilitychange", handleVisibility);
 
 	}
 
 	function tick(event) {
-	   if (event.paused) return;
+		if (event.paused) return;
+		var delta = event.delta / (1000 / baseFramerate);
 		
-		addLogo();
+		if (logos.length < maxLogos) { addLogo(); }
+
 		var factor = 1,
 			DIST = canvas.width / 10,
 			ADD = 10;
@@ -86,14 +92,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		for (var i = logos.length - 1; i >= 0; i--) {
 			var b = logos[i];
-			b.y += b.speed;
-			b.rotation = (b.rotation + b.rotationSpeed) % 360;
-			b.speed *= 1.05;
+			b.y += b.speed * delta;
+			b.rotation = (b.rotation + (b.rotationSpeed * delta)) % 360;
 
-			b.x += b.addX;
-			b.y += b.addY;
+			b.x += b.addX * delta;
+			b.y += b.addY * delta;
 			b.addX *= 0.9;
 			if (b.addY < 0) { b.addY *= 0.9; }
+
+			b.pulseTimer += 0.05 * delta;
+			var pulse = Math.sin(b.pulseTimer);
+			b.scale = (b.speed / 10) + (pulse * 0.05);
+			b.alpha = 0.3 + (pulse * 0.2);
+			if (Math.random() > 0.985) b.alpha = 0.1;
 
 			var difX = stage.mouseX - b.x,
 				difY = stage.mouseY - b.y,
@@ -113,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	function addLogo() {
-	if (logos.length >= MAX_LOGOS) return;
+	if (logos.length >= maxLogos) return;
 	
 	var b = new createjs.Bitmap(img);
 	b.regX = 40;
@@ -141,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function resetLogo(b) {
 	b.x = Math.random() * canvas.width;
 	b.y = -60;
-	b.speed = Math.random() * 3 + 1.5;
+	b.speed = Math.random() * 2.5 + 1.2;
 	b.rotationSpeed = Math.random() * 2 - 1;
 	b.scale = b.speed / 10;
 	b.addX = 0;
@@ -162,30 +173,10 @@ function getGlowRGB() {
 	
 }
 
-function tick(event) {
-	if (logos.length < MAX_LOGOS) { addLogo(); }
-
-	for (var i = logos.length - 1; i >= 0; i--) {
-		var b = logos[i];
-		b.y += b.speed;
-		b.rotation += b.rotationSpeed;
-
-		b.pulseTimer += 0.05;
-		var pulse = Math.sin(b.pulseTimer);
-		
-		b.scale = (b.speed / 10) + (pulse * 0.05); 
-		b.alpha = 0.3 + (pulse * 0.2); 
-		
-		if (Math.random() > 0.98) b.alpha = 0.1;
-
-		if (b.y > canvas.height + 50) { resetLogo(b); }
-	}
-	stage.update(event);
-}
-
 	function handleResize() {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
+		updateMaxLogos();
 		stage.update();
 	}
 
@@ -193,6 +184,23 @@ function tick(event) {
 	stage.on("stagemousedown", function () {
 		clicked = true;
 	});
+
+	function updateMaxLogos() {
+		var area = window.innerWidth * window.innerHeight;
+		if (prefersReducedMotion) {
+			maxLogos = 20;
+		} else {
+			maxLogos = Math.min(60, Math.max(25, Math.floor(area / 40000)));
+		}
+		while (logos.length > maxLogos) {
+			var extra = logos.pop();
+			stage.removeChild(extra);
+		}
+	}
+
+	function handleVisibility() {
+		createjs.Ticker.paused = document.hidden;
+	}
 });
 
 setTimeout(() => {
