@@ -30,7 +30,7 @@ To view the live portfolio locally:
 *   **Core Logic:** Single-threaded, non-blocking asynchronous event loop
 
 ### 🔗 Connect
-*   **Discord:** [Join FA SERVER](https://discord.gg)
+*   **Discord:** [Join FA SERVER](https://discord.gg/XztDfrvrrD)
 *   **GitHub:** [SoloDRIVER]()
 
 ---
