@@ -1,0 +1,374 @@
+/* Made by DEV */
+
+:root {
+	--bg: #05070a;
+	--panel: #0b0f14;
+	--accent: #00d4ff;
+	--text: #e1e7ef;
+	--muted: #6b7785;
+	--border: #161e29;
+	--glow: rgba(0, 212, 255, 0.2);
+	--logoglow: #4166F5;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Consolas', 'Courier New', monospace;
+}
+
+body {
+	background: var(--bg);
+	color: var(--text);
+	overflow-x: hidden;
+	line-height: 1.6;
+	
+	background-image: radial-gradient(circle at 50% 50%, #080b10 0%, #05070a 100%);
+}
+
+/* Title */
+
+.page-title {
+	margin-bottom: 10px;
+}
+
+.page-title h1 {
+	font-size: 14px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	color: var(--text);
+	font-weight: normal;
+}
+
+.accent-pipe {
+	color: var(--accent);
+	font-weight: bold;
+}
+
+.glitch {
+	color: var(--muted);
+	transition: 0.3s;
+}
+
+.glitch:hover {
+	color: var(--accent);
+	text-shadow: 0 0 8px var(--accent);
+}
+
+
+/* CRT Scanline Effect */
+
+.scanlines {
+	position: fixed;
+	top: 0; left: 0; width: 100%; height: 100%;
+	background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+				linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+	background-size: 100% 3px, 3px 100%;
+	pointer-events: none;
+	z-index: 100;
+	opacity: 0.4;
+}
+
+.wrapper {
+	width: 1100px;
+	max-width: 95%;
+	margin: auto;
+	padding: 40px 0;
+}
+
+.section {
+	background: var(--panel);
+	border: 1px solid var(--border);
+	border-top: 2px solid var(--border);
+	border-radius: 4px;
+	padding: 24px;
+	margin-bottom: 24px;
+	position: relative;
+	box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+	
+	transition: border-top-color 0.3s;
+}
+
+.section:hover {
+	border-top-color: var(--accent);
+}
+
+h2 {
+	margin-bottom: 14px;
+	font-size: 14px;
+	color: var(--accent);
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	display: flex;
+	align-items: center;
+}
+
+h2::before {
+	content: "> ";
+	margin-right: 8px;
+}
+
+/* Card Glow & Vibe */
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 20px;
+}
+
+.card {
+	background: #0e141c;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	padding: 18px;
+	transition: all 0.3s ease;
+	position: relative;
+}
+
+.card:hover {
+	transform: translateY(-5px);
+	border-color: var(--accent);
+	background: #0d121a;
+	box-shadow: 0 0 25px var(--glow);
+}
+
+.tag {
+	display: inline-block;
+	font-size: 10px;
+	padding: 2px 8px;
+	border-radius: 4px;
+	background: rgba(0, 255, 179, 0.1);
+	color: var(--accent);
+	margin-right: 6px;
+	margin-top: 12px;
+	border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* Navbar & Logo */
+
+nav {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin-top: 5px; 
+	margin-bottom: 20px;
+	gap: 40px;
+}
+
+nav ul {
+	display: flex;
+	list-style: none;
+	gap: 20px;
+}
+
+
+nav a {
+	color: var(--muted);
+	text-decoration: none;
+	font-size: 13px;
+	transition: 0.2s;
+}
+
+nav a:hover { color: var(--accent); text-shadow: 0 0 8px var(--accent); }
+
+/* Logo */
+
+.logo {
+	display: inline-block;
+	position: relative;
+	height: 45px;
+}
+
+.logo img {
+	height: 45px;
+	mix-blend-mode: multiply;
+	position: relative;
+	z-index: 2;
+}
+
+.logo::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 80%;
+	height: 80%;
+	background: var(--logoglow);
+	border-radius: 40%;
+	filter: blur(20px);
+	opacity: 0.6;
+	z-index: 1;
+	animation: electric-pulse 3s infinite ease-in-out;
+}
+
+@keyframes electric-pulse {
+	0%, 100% {
+		transform: translate(-50%, -50%) scale(1);
+		opacity: 0.4;
+		filter: blur(15px);
+	}
+	50% {
+		transform: translate(-50%, -50%) scale(1.1);
+		opacity: 0.9;
+		filter: blur(25px);
+		background: var(--logoglow);
+	}
+}
+
+/* Terminal & Stats */
+
+.terminal {
+	background: #000000;
+	color: var(--accent);
+	padding: 15px;
+	border-radius: 6px;
+	font-size: 13px;
+	height: 140px;
+	overflow: auto;
+	border: 1px solid #111;
+	box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.05);
+
+	white-space: pre;
+	line-height: 1.5; 
+}
+
+
+.stat {
+	font-size: 28px;
+	color: var(--accent);
+	font-weight: bold;
+	text-shadow: 0 0 10px var(--glow);
+}
+
+footer {
+	text-align: center;
+	color: var(--muted);
+	font-size: 11px;
+	margin-top: 50px;
+}
+
+.contact-link {
+	color: var(--accent);
+	text-decoration: none;
+	transition: 0.2s;
+	font-weight: bold;
+}
+
+.contact-link:hover {
+	text-decoration: underline;
+	text-shadow: 0 0 8px var(--accent);
+}
+
+.discord-link {
+	color: var(--accent);
+	text-decoration: none;
+	transition: 0.2s;
+	font-weight: bold;
+}
+
+.discord-link:hover {
+	text-decoration: underline;
+	text-shadow: 0 0 8px var(--accent);
+}
+/* About Me */
+
+#about .grid {
+	display: grid;
+	grid-template-columns: 1.6fr 1fr; 
+	gap: 30px;
+	align-items: center;
+}
+
+.bio-text {
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--text);
+}
+
+.bio-text b {
+	color: var(--accent);
+	text-shadow: 0 0 5px var(--glow);
+}
+
+.bio-specs {
+	border-left: 1px solid var(--border);
+	padding-left: 25px;
+}
+
+.bio-specs b {
+	color: var(--text);
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+/* Section Glow Effect */
+#about {
+	transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#about:hover {
+	border-color: var(--accent);
+	box-shadow: 0 0 15px var(--glow);
+}
+
+@media (max-width: 768px) {
+	#about .grid {
+		grid-template-columns: 1fr;
+	}
+	.bio-specs {
+		border-left: none;
+		border-top: 1px solid var(--border);
+		padding-left: 0;
+		padding-top: 15px;
+	}
+}
+
+
+/* Status Dot Base */
+
+.status-dot {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	background-color: var(--accent);
+	border-radius: 50%;
+	margin-right: 3px;
+	position: relative;
+	vertical-align: middle;
+	margin-top: -2px;
+}
+
+/* Pulsing Outer Glow */
+
+.status-dot::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background-color: var(--accent);
+	animation: status-pulse 2s infinite ease-out;
+}
+
+/* Pulse Animation */
+
+@keyframes status-pulse {
+	0% { transform: scale(1); opacity: 0.8; }
+	100% { transform: scale(3); opacity: 0; }
+}
+
+/* Particles */
+
+#logoCanvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 9999;
+	pointer-events: none;
+	background: transparent;
+	filter: brightness(1.1) contrast(1.1) drop-shadow(0 0 5px var(--logoglow));
+}
